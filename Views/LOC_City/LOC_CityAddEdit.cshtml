@@ -1,0 +1,143 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "City Add/Edit";
+   Layout = "/Views/Shared/_Layout.cshtml";
+}
+@model LOC_CityModel
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>City Add/Edit</span>
+            <i class="fa fa-circle"></i>
+        </li>
+    </ul>
+</div>
+<!--Theme Table-->
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <!-- BEGIN SAMPLE FORM PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase">City Add/Edit</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                   
+                    <form class="form-horizontal" role="form" method="post" asp-area="LOC_City" asp-controller="LOC_City" asp-action="Save" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        @Html.HiddenFor(x=>x.CityId)
+                        @Html.HiddenFor(x=>x.PhotoPath)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>Country Name</label>
+                                @*{asp-for is used for parameters}*@
+                                <div class="col-md-9">
+                                <select class="form-control" asp-for="CountryId" asp-items="@(new SelectList(ViewBag.CountryList,"CountryId","CountryName"))" onchange="funOnStateChange();" >
+                                    <option value="">Select Country</option>
+                                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                                </select>
+                                </div>
+                            </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>State Name</label>
+                                @*{asp-for is used for parameters}*@
+                                <div class="col-md-9">
+                                <select class="form-control" asp-for="StateId" asp-items="@(new SelectList(ViewBag.StateList,"StateId","StateName"))">
+                                    <option value="">Select State</option>
+                                    <span asp-validation-for="StateId" class="text-danger"></span>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>City Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" asp-for="CityName" placeholder="Enter City Name" />
+                                    <span asp-validation-for="CityName" class="text-danger"></span>
+                                </div>
+                            </div>
+                             
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>City Code</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" asp-for="CityCode" placeholder="Enter City Code" />
+                                    <span asp-validation-for="CityCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Photo Path</label>
+                                <div class="col-md-9">
+                                <input type="file" placeholder="Upload File" class="form-control" asp-for="File" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="submit" class="btn green" value="Save" />
+                                    <a class="btn default" asp-area="LOC_City" asp-controller="LOC_City" asp-action="City">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+</div>
+@section Scripts{
+   <script>
+    function funOnStateChange()
+    {        
+        var CountryId=$("#CountryId").val();
+        console.log(CountryId);
+        if(CountryId!=="")
+        {
+            console.log("Demo");
+            $("#StateId").empty();
+            $("#StateId").append($("<option></option>").val("").html("Select State"));
+            $.ajax(
+            {
+                type:"POST",
+                contentType:"application/json; charset=utf-8",
+                url:"@Url.Action("DropDownByCountry", "LOC_City")" +"?CountryId=" + CountryId,
+               // data:{},
+                dataType: "json",
+                success: function (Result)
+                {
+                    $.each(Result,
+                    function(key, value)
+                    {
+                        $("#StateId").append($("<option></option>").val(value.stateId).html(value.stateName));
+                    });
+                },
+                error: function (r)
+                {
+                    alert("Error while loading combobox");
+                }
+            });
+            }
+            else
+            {
+                $("#StateId").empty();
+                $("#StateId").append($("<option></option>").val("").html("Select State"));
+            }
+    }
+  
+    </script>
+  @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

@@ -1,0 +1,236 @@
+﻿@{
+	ViewData["Title"]="Contact List";
+	Layout = "/Views/Shared/_Layout.cshtml";
+}
+@using System.Data
+@model DataTable
+ <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a asp-controller="CON_Contact" asp-action="Contact">Contact List</a>
+         
+        </li>
+    </ul>
+</div>
+<hr/>
+     <div class="caption font-dark">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject bold uppercase">Contact List</span>
+        </div>
+        <div class="actions">
+            <div class="btn-group btn-group-devided pull-right">
+                <a asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add" class="btn green btn-rounded"><i class="fa fa-plus"></i>&nbsp;Add Contact</a>
+            </div>
+        </div>
+@*<div class="col-md-2">
+	<div class="row">
+	<a asp-controller="CON_Contact" asp-action="Add" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Add Contact Data</a>
+</div></div>&nbsp;*@
+<form method="post" asp-controller="CON_Contact" asp-action="Search">
+<table>
+	<tr>
+		<th> <label>Person Name &nbsp;</label> </th>
+		<th></th>
+		<th> <label>Person Mobile Number &nbsp;</label> </th>
+		
+	</tr>
+	<tr>
+		<td>
+         <input type="text" name="PersonName" class="form-control input-small" placeholder="Enter Person Name" />
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<input type="text" name="MobileNumber" class="form-control input-small" placeholder="Enter Mobile Number" />
+		</td>
+		&nbsp;
+		<td>
+			 <button class="btn btn-outline-primary">Search</button>
+		</td>
+	</tr>
+</table>
+</form>
+<div style="overflow-x:auto">
+	<table class="table table-hover">
+	<tr style="align:center;">
+		<th>Actions</th>
+		<th>Image</th>
+		<th>CountryName</th>
+		<th>StateName</th>
+		<th>CityName</th>
+		<th>ContactCategoryName</th>
+		<th>PersonName</th>
+		<th>MobileNumber</th>
+		<th>Email</th>
+		<th>Address</th>
+		<th>Gender</th>
+		<th>Alternate<br />MobileNumber</th>
+		<th>Instagram</th>
+		<th>LinkedIn</th>
+		<th>Twitter</th>
+		<th>CreationDate</th>
+		<th>ModificationDate</th>
+	</tr>
+	<tbody  class="table table-centered table-hover table-responsive table-sm" id="sample_1">
+		@foreach (DataRow dr in Model.Rows)
+		{
+		<tr>
+		<td><form method="post" asp-controller="CON_Contact" asp-action="DeleteContact">
+			<input type="hidden" name="ContactId" value="@Convert.ToInt32(dr["ContactId"])"/>
+			<button type="submit" class="btn btn-danger btn-xs" onclick="return fun3()"><i class="fa fa-trash"></i></button>
+			<a class="btn btn-info btn-xs" asp-action="Add" asp-controller="CON_Contact" asp-route-contactid="@Convert.ToInt32(dr["ContactId"])"><i class="fa fa-pencil"></i></a>
+		</form>
+		</td>
+		<td><img src="@Url.Content(dr["PhotoPath"].ToString())" alt="img" height="50px" width="50px"/></td>
+		<td>@dr["CountryName"]</td>
+		<td>@dr["StateName"]</td>
+		<td>@dr["CityName"]</td>
+		<td>@dr["ContactCategoryName"]</td>
+		<td>@dr["PersonName"]</td>
+		<td>@dr["MobileNumber"]</td>
+		<td>@dr["Email"]</td>
+		<td>@dr["Address"]</td>
+		<td>@dr["Gender"]</td>
+		<td>@dr["AlternateMobileNumber"]</td>
+		<td>@dr["Instagram"]</td>
+		<td>@dr["LinkedIn"]</td>
+		<td>@dr["Twitter"]</td>
+		<td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+		<td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+		</tr>
+		}
+	</tbody>
+</table>
+</div>
+
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+@*<div class="portlet light bordered margin-top-10 ">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject bold uppercase">Contact List</span>
+        </div>
+        <div class="actions">
+            <div class="btn-group btn-group-devided">
+                <a asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add" class="btn green btn-rounded"><i class="fa fa-plus"></i>&nbsp;Add Contact</a>
+            </div>
+        </div>
+    </div>
+</div>
+   <div class="portlet-body">
+        <div class="pull-right">
+            <form method="post" asp-controller="CON_Contact" asp-action="Search">
+			<table>
+				<tr>
+					<th> <label>Person Name &nbsp;</label> </th>
+					<th></th>
+					<th> <label>Person Mobile Number &nbsp;</label> </th>
+		
+				</tr>
+				<tr>
+					<td>
+					 <input type="text" name="PersonName" class="form-control input-small" placeholder="Enter Person Name" />
+					</td>
+					<td>&nbsp;</td>
+					<td>
+						<input type="text" name="MobileNumber" class="form-control input-small" placeholder="Enter Mobile Number" />
+					</td>
+					&nbsp;
+					<td>
+						 <button class="btn btn-outline-primary">Search</button>
+					</td>
+				</tr>
+			</table>
+              </form>
+        </div>
+        <table class="table table-striped table-bordered table-hover table-header-fixed dataTable display nowrap" id="example">
+            <thead>
+                <tr class="">
+					<th>Actions</th>
+					<th>Image</th>
+					<th>CountryName</th>
+					<th>StateName</th>
+					<th>CityName</th>
+					<th>ContactCategoryName</th>
+					<th>PersonName</th>
+					<th>MobileNumber</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th>Gender</th>
+					<th>Alternate<br />MobileNumber</th>
+					<th>Instagram</th>
+					<th>LinkedIn</th>
+					<th>Twitter</th>
+					<th>Created</th>
+					<th>Modified</th>
+                </tr>
+            </thead>
+            <tbody id="sample_2">
+           @foreach (DataRow dr in Model.Rows)
+            {
+        <tr>
+		<td><form method="post" asp-controller="CON_Contact" asp-action="DeleteContact">
+			<input type="hidden" name="ContactId" value="@Convert.ToInt32(dr["ContactId"])"/>
+			<button type="submit" class="btn btn-danger btn-xs" onclick="return fun3()"><i class="fa fa-trash"></i></button>
+			<a class="btn btn-info btn-xs" asp-action="Add" asp-controller="CON_Contact" asp-route-contactid="@Convert.ToInt32(dr["ContactId"])"><i class="fa fa-pencil"></i></a>
+		</form>
+		</td>
+		<td><img src="@Url.Content(dr["PhotoPath"].ToString())" alt="img" height="50px" width="50px"/></td>
+		<td>@dr["CountryName"]</td>
+		<td>@dr["StateName"]</td>
+		<td>@dr["CityName"]</td>
+		<td>@dr["ContactCategoryName"]</td>
+		<td>@dr["PersonName"]</td>
+		<td>@dr["MobileNumber"]</td>
+		<td>@dr["Email"]</td>
+		<td>@dr["Address"]</td>
+		<td>@dr["Gender"]</td>
+		<td>@dr["AlternateMobileNumber"]</td>
+		<td>@dr["Instagram"]</td>
+		<td>@dr["LinkedIn"]</td>
+		<td>@dr["Twitter"]</td>
+		<td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+		<td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+		</tr>   
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
+<!-- END EXAMPLE TABLE PORTLET-->
+
+@section Scripts{
+<script>
+$(document).ready(function () {
+    $('#example').DataTable({
+        scrollY: 200,
+        scrollX: true,
+    });
+});
+	 $(document).ready(function () {
+            $("#sample_1").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#sample_2 tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+	function fun3()
+	{
+		if(confirm("Are you sure want to delete"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	</script>
+}
+
+
+

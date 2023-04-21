@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "ContactCategory Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model MST_ContactCategoryModel
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>ContactCategory Add/Edit</span>
+            <i class="fa fa-circle"></i>
+        </li>
+    </ul>
+</div>
+@*<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-controller="MST_ContactCategory" asp-action="Save" enctype="multipart/form-data">
+            @Html.HiddenFor(x=>x.ContactCategoryId)
+            @Html.HiddenFor(x=>x.PhotoPath)
+            <div class="form-group">
+                <span class="text-danger">*</span><label>ContactCategory Name</label>
+                <input type="text" placeholder="Enter ContactCategory Name" class="form-control" asp-for="ContactCategoryName" />
+                <span asp-validation-for="ContactCategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span><label>ContactCategory Code</label>
+                <input type="text" placeholder="Enter ContactCategory Code" class="form-control" asp-for="ContactCategoryCode" />
+   <span asp-validation-for="ContactCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span> <label>Photo Path</label>
+                <input type="file" placeholder="Upload File" class="form-control" asp-for="File" />
+
+            </div>
+            <hr />
+            <input type="submit" class="btn btn-success" />
+            <a class="btn btn-danger" asp-controller="MST_ContactCategory" asp-action="ContactCategory">Cancel</a>
+        </form>
+    </div>
+</div>*@
+<!--Theme Table-->
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <!-- BEGIN SAMPLE FORM PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase">ContactCategory Add/Edit</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <h4 class="font-green-sharp">@TempData["ContactCategoryInsertMsg"]</h4>
+                    <form class="form-horizontal" role="form" method="post" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Save" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        @Html.HiddenFor(x=>x.ContactCategoryId)
+                        @Html.HiddenFor(x=>x.PhotoPath)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>C Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" asp-for="ContactCategoryName" placeholder="Enter ContactCategory Name" />
+                                    <span asp-validation-for="ContactCategoryName" class="text-danger"></span>
+                                </div>
+                            </div>
+                             
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="text-danger">*</span>ContactCategory Code</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" asp-for="ContactCategoryCode" placeholder="Enter ContactCategory Code" />
+                                    <span asp-validation-for="ContactCategoryCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="text-danger">*</span> <label class="col-md-3 control-label">Photo Path</label>
+                                <div class="col-md-9">
+                                <input type="file" placeholder="Upload File" class="form-control" asp-for="File" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="submit" class="btn green" value="Save" />
+                                    <a class="btn default" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="ContactCategory">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>
+</div>
+
+
